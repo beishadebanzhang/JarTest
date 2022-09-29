@@ -23,7 +23,7 @@ public class TestService implements InitializingBean {
                 .score(10)
                 .desc("我是自定义消息")
                 .build();
-        eventBus.post("message");
+        eventBus.post(message);
     }
 
     /**
