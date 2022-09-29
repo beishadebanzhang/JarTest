@@ -1,0 +1,33 @@
+简介:
+    EventBus 是 Guava 的事件处理机制，是观察者模式（生产/消费模型）的一种实现
+    Observer模式也是 JDK 中自带就支持的, 许多程序库提供了更加简单的实现，例如 Guava EventBus、RxJava、EventBus 等
+优点:
+    相比 Observer 编程简单方便
+    通过自定义参数可实现同步、异步操作以及异常处理
+    单进程使用，无网络影响
+缺点:
+    只能单进程使用
+    项目异常重启或者退出不保证消息持久化
+    如果需要分布式使用还是需要使用 MQ
+使用:
+    EventBus
+        void register(Object object); // 注册订阅
+        void unregister(Object object); // 取消订阅
+        void post(Object event); // 发布消息
+    同步使用:
+        // 创建EventBus
+        EventBus eventBus = new EventBus();
+        // 创建订阅者
+        class EventListener:
+            @Subscribe public void listenInteger(Integer message)...
+            @Subscribe public void listenString(Object message)...
+        // 订阅者绑定
+        eventBus.register(eventListener);
+        // 发送消息
+        eventBus.post(1);
+    异步使用:
+        // 多个@Subscribe并行执行
+        EventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
+    异常处理:
+        // 构造函数传入异常处理实例即可
+        public AsyncEventBus(Executor executor, SubscriberExceptionHandler subscriberExceptionHandler)
